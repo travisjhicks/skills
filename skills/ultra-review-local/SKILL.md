@@ -7,6 +7,7 @@ description: |
   dedupes and confirms findings before reporting. Use when the user types
   /ultra-review-local, asks for a deep multi-agent review, asks for "ultrareview
   but local", or wants a thorough audit of a branch or project before shipping.
+license: Complete terms in LICENSE.txt
 ---
 
 # ultra-review-local

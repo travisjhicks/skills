@@ -28,4 +28,6 @@ with it.
 
 ## License
 
-[MIT](LICENSE)
+MIT. Each skill bundles its own license — see the `LICENSE.txt` in
+[`skills/ultra-review-local/`](skills/ultra-review-local/LICENSE.txt) and
+[`skills/freddish/`](skills/freddish/LICENSE.txt).
