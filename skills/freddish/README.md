@@ -6,17 +6,19 @@ Rogers and his team developed for *Mister Rogers' Neighborhood*.
 
 ## What it does
 
-Freddish translation is a deliberate, **nine-step rewriting process**. Each step
-targets one specific way adult prose fails young children: negative framing,
-abstraction, directive tone, false certainty, exclusionary assumptions, missing
-motivation, hidden value judgments, and developmental disconnection.
+Freddish translation applies **nine rules**, each targeting one specific way adult
+prose fails young children: negative framing, abstraction, directive tone, false
+certainty, exclusionary assumptions, missing motivation, hidden value judgments, and
+developmental disconnection. The skill applies all nine together in a single careful
+pass, and also folds in Freddish's broader lens—catching words a literal-minded child
+might misread (the classic example: a blood-pressure cuff that "blows up").
 
-The skill enforces **one rule at a time**: rather than asking a single pass to apply
-all nine rules at once (which dilutes them), it dispatches each step to its own
-subagent that sees only that step's instruction and the current text. A
-literal-misinterpretation pre-pass runs first, flagging words a literal-minded child
-might misread (the classic example: a blood-pressure cuff that "blows up") so you can
-revise before the chain runs.
+> **A note on architecture.** An earlier version dispatched each rule to its own
+> isolated subagent, one rule at a time. We tested that against a single subagent given
+> all nine rules at once, and the subagent-per-rule approach did **not** perform as
+> well—isolated passes drifted off the input's meaning, and a step-by-step chain bled
+> the worked example's wording into the output. The single all-rules-at-once pass
+> produced the most coherent, on-topic translations, so that is what the skill does.
 
 ## Usage
 
@@ -28,21 +30,17 @@ Translate this into Freddish: "Don't touch the stove, it's dangerous."
 Rewrite this so a four-year-old won't be scared by it: ...
 ```
 
-By default the skill shows the full progression (the text after each of the nine
-steps) plus the final translation, so you can see how each rule peels away a different
-adult-prose failure mode. Ask for "just the final translation" to skip the
-intermediate steps.
+The skill returns the final Freddish translation (and can show the original alongside
+it for reference).
 
 ## How it's built
 
-`SKILL.md` is the orchestration entry point and authoritative spec. The prompts and
-canonical step definitions live under `references/`:
+`SKILL.md` is the entry point and authoritative spec; it contains the combined
+translation prompt inline. The canonical rule definitions live under `references/`:
 
 ```
 references/
-├── freddish.txt              # the nine steps with before/after examples
-├── pre_pass_prompt.md        # literal-misinterpretation screening prompt
-└── step_prompt_template.md   # per-step subagent prompt template
+└── freddish.txt   # the nine rules with before/after examples
 ```
 
 See [`SKILL.md`](SKILL.md) for the full procedure, including why each rule exists.
