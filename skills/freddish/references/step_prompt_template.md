@@ -48,7 +48,7 @@ If this step's transformation does not apply to the current text (e.g.
 Step 8's value-judgment removal applied to text that contains no value
 judgments), return the text unchanged.
 
-Preserve any quotation marks that appear inside the current text — they
+Preserve any quotation marks that appear inside the current text—they
 are part of the input. Do not add quotation marks around your output;
 return the rewritten text bare. No preamble, no commentary, no diff, no
 explanation of what you changed. Just the new text on its own.

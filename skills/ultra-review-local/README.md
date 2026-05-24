@@ -11,7 +11,7 @@ prioritized markdown report.
 When invoked via `/ultra-review-local`, the skill:
 
 1. **Detects scope automatically** — staged + unstaged changes, branch ahead of `main`,
-   or the whole project — and announces it before spending budget.
+   or the whole project—and announces it before spending budget.
 2. **Spawns six reviewer agents in parallel**, each specialized:
    - **security** — injection, authz, secrets, crypto, unsafe defaults
    - **correctness** — logic bugs, edge cases, null/undefined, races, error paths
@@ -21,7 +21,7 @@ When invoked via `/ultra-review-local`, the skill:
    - **style** — convention drift, naming, dead code
 3. **Runs a verifier pass** that reads the actual code to confirm each finding,
    deduplicates across reviewers, tightens severity, and drops findings it can't
-   reproduce — aiming for a low false-positive bar.
+   reproduce—aiming for a low false-positive bar.
 4. **Prints a single markdown report** grouped by Critical / Important / Suggestions,
    with `file:line` links.
 

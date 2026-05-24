@@ -11,7 +11,7 @@ reviewer: <one of: security | correctness | architecture | performance | tests |
 findings:
   - severity: <critical | important | suggestion>
     file: <path/relative/to/repo/root>
-    line: <integer — the cited line in the file; OMIT when the finding has no specific line>
+    line: <integer—the cited line in the file; OMIT when the finding has no specific line>
     title: <short noun phrase, ~10 words>
     rationale: |
       One paragraph. Cite the surrounding code or behavior precisely so the
@@ -34,11 +34,11 @@ coverage:
   even on Windows.
 - **`line`** — omit the key entirely when the finding has no specific line
   (e.g. "no test exists for this behavior anywhere in the suite"). Do NOT
-  emit `line: 0` or `line: null` — the verifier renders the file:line link
+  emit `line: 0` or `line: null`—the verifier renders the file:line link
   without a line suffix when `line` is absent.
 - **`title`** — fits on one line in a terminal. No trailing punctuation.
 - **`rationale`** — one paragraph. If you can quote the offending line or
-  the specific snippet you're flagging, do — that lets the verifier skip a
+  the specific snippet you're flagging, do—that lets the verifier skip a
   re-read on low-severity findings.
 - **`suggested_fix`** — optional but strongly preferred. One line. Omit
   rather than write a vague "consider refactoring".
@@ -49,7 +49,7 @@ coverage:
 
 ## Output rules
 
-- Return **only** a fenced YAML block. No prose before or after — the verifier
+- Return **only** a fenced YAML block. No prose before or after—the verifier
   parses programmatically.
 - The block must start with `reviewer:` and parse as valid YAML.
 - If you produce zero findings, still emit the block with `findings: []` and

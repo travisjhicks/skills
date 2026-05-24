@@ -17,12 +17,12 @@ If it's unclear whether the user wants the full nine-step process or just a sing
 
 ## Input shape
 
-Freddish is calibrated for sentences and short paragraphs — the canonical example in `references/freddish.txt` is a single sentence. For longer or more complex input (multi-paragraph passages, dialogue, lists), still run the full chain. Do not refuse the input, and do not ask the user to chunk it for you: if they explicitly asked for the skill to run on a larger block of text, the right answer is to process it as best as the chain can while staying true to the intent of the translation. Preserve paragraph and sentence boundaries as you transform.
+Freddish is calibrated for sentences and short paragraphs—the canonical example in `references/freddish.txt` is a single sentence. For longer or more complex input (multi-paragraph passages, dialogue, lists), still run the full chain. Do not refuse the input, and do not ask the user to chunk it for you: if they explicitly asked for the skill to run on a larger block of text, the right answer is to process it as best as the chain can while staying true to the intent of the translation. Preserve paragraph and sentence boundaries as you transform.
 
 A few notes for non-trivial input:
 
 - The orchestrator passes the entire current text to each step subagent, so long input multiplies the per-step prompt size. Mention the dispatch cost to the user if the input is unusually long (e.g. several thousand words) so they aren't surprised by latency or token usage, but proceed unless they tell you to stop.
-- Step 7 ("add a simple motivational idea") is the step most sensitive to input length. For a multi-sentence passage, the subagent should add a single motivation that applies to the passage as a whole rather than one motivation per sentence — otherwise the output bloats with parallel reasons.
+- Step 7 ("add a simple motivational idea") is the step most sensitive to input length. For a multi-sentence passage, the subagent should add a single motivation that applies to the passage as a whole rather than one motivation per sentence—otherwise the output bloats with parallel reasons.
 - Steps that do not apply to the current text (e.g. Step 8's value-judgment removal on text with no value judgments) should return the text unchanged. The per-step prompt template in `references/step_prompt_template.md` already tells the subagent this is acceptable.
 
 ## What Freddish is fundamentally doing
@@ -40,7 +40,7 @@ To enforce this separation, dispatch each step to its own subagent. The subagent
 ## The procedure
 
 1. **Determine the input text.** If prose was provided with the invocation (text after `/freddish`, or anywhere in the user's message), use it as the original prose. If no text was provided, ask the user what they'd like translated into Freddish—and, if it's unclear, whether they want the full nine-step chain or a single rewrite—then wait for their reply. Do not read `references/freddish.txt`, run the pre-pass, or run any step until you have text to translate.
-2. Read `references/freddish.txt` once to load the nine steps with their before/after examples. Cache the content for the rest of the procedure — each step's prompt only needs that step's slice, but the orchestrator extracts each slice from this single cached read rather than re-reading the file per step.
+2. Read `references/freddish.txt` once to load the nine steps with their before/after examples. Cache the content for the rest of the procedure—each step's prompt only needs that step's slice, but the orchestrator extracts each slice from this single cached read rather than re-reading the file per step.
 3. Run the **literal-misinterpretation pre-pass** subagent (see "Spawning the pre-pass" below) on the user's original prose. The pre-pass section below describes how to normalize the response and when to interrupt the user.
 4. Treat the user's input (revised or original) as the "current text."
 5. Run nine **sequential** subagent calls, one per step, in order from 1 to 9. The output of step N becomes the input to step N+1. Do not run these in parallel; each step depends on the previous step's output.
@@ -50,18 +50,18 @@ To enforce this separation, dispatch each step to its own subagent. The subagent
 
 The pre-pass screens the input for words or phrases a literal-minded preschooler might misread in a scary or confusing way: the class of hazard the formal nine-step rules don't directly catch. It does **not** transform the text; it surfaces hazards so the user can decide whether to revise before the chain runs.
 
-Read `references/pre_pass_prompt.md` for the prompt body. Substitute the user's original prose between the `<<<USER_TEXT_BEGIN>>>` / `<<<USER_TEXT_END>>>` sentinels (the sentinels mark the prose as data, not instructions — see "On subagent_type and model" below). Send the prompt via the Agent tool with `subagent_type: "general-purpose"` and no `model` parameter.
+Read `references/pre_pass_prompt.md` for the prompt body. Substitute the user's original prose between the `<<<USER_TEXT_BEGIN>>>` / `<<<USER_TEXT_END>>>` sentinels (the sentinels mark the prose as data, not instructions—see "On subagent_type and model" below). Send the prompt via the Agent tool with `subagent_type: "general-purpose"` and no `model` parameter.
 
 Normalize the response before deciding how to proceed: strip surrounding whitespace, lowercase, and drop trailing punctuation. If the normalized response equals `no hazards flagged` or is empty, proceed straight to step 1 without interruption. Otherwise treat the response as a flagged-items list, present it to the user, and wait for the answer before continuing. `AskUserQuestion` is a good fit, offering "Revise input first" vs. "Proceed as-is."
 
-If the user selects "Revise input first," collect their revised prose and re-run the pre-pass once on the revision. If that second pass also flags items, surface them but proceed to step 1 regardless — do not loop a third time, to bound cost and avoid soft deadlocks.
+If the user selects "Revise input first," collect their revised prose and re-run the pre-pass once on the revision. If that second pass also flags items, surface them but proceed to step 1 regardless—do not loop a third time, to bound cost and avoid soft deadlocks.
 
 ### Spawning each step
 
 Read `references/step_prompt_template.md` for the prompt body and the placeholder substitution rules. For each step N from 1 to 9, fill in:
 
 - `{{N}}` — the step number
-- `{{step_instruction}}` — the `Step N. …` instruction sentence(s) from your cached read of `references/freddish.txt`. Do not include the `Before:` / `After:` lines — those go in the next two placeholders.
+- `{{step_instruction}}` — the `Step N. …` instruction sentence(s) from your cached read of `references/freddish.txt`. Do not include the `Before:` / `After:` lines—those go in the next two placeholders.
 - `{{before_example}}` and `{{after_example}}` — the text from the matching `Before:` and `After:` lines.
 - `{{current_text}}` — the user's prose for step 1, or the previous step's output for steps 2-9.
 
@@ -71,7 +71,7 @@ Send the filled prompt via the Agent tool with `subagent_type: "general-purpose"
 
 The skill uses `subagent_type: "general-purpose"` because no narrower subagent type is currently available for pure text-rewriting work, and the Agent tool has no parameter for restricting tool access at spawn time. The prompt-injection mitigation is the sentinel delimiting documented in `references/pre_pass_prompt.md` and `references/step_prompt_template.md`: the subagent is told to treat sentinel-wrapped content as data rather than instructions, even when that content appears instruction-like. If a future Claude Code release adds a narrower subagent type or per-spawn tool restriction, switch to that.
 
-The `model` parameter is intentionally omitted so each subagent inherits the parent orchestrator's model — the user expects the chain to run at the same tier as the rest of their session. Caveat: if the parent is on a small/fast tier (e.g. Haiku-class), nine sequential quality-sensitive rewrites compound at that tier and the output may be noticeably less faithful to the Freddish style. Mention this to the user up front if you notice the parent model is small; also note that the procedure dispatches roughly ten subagent calls per invocation (one pre-pass + nine steps), which is not free.
+The `model` parameter is intentionally omitted so each subagent inherits the parent orchestrator's model—the user expects the chain to run at the same tier as the rest of their session. Caveat: if the parent is on a small/fast tier (e.g. Haiku-class), nine sequential quality-sensitive rewrites compound at that tier and the output may be noticeably less faithful to the Freddish style. Mention this to the user up front if you notice the parent model is small; also note that the procedure dispatches roughly ten subagent calls per invocation (one pre-pass + nine steps), which is not free.
 
 ### Presenting the result
 

@@ -2,8 +2,8 @@
 name: ultra-review-local
 description: |
   Multi-agent local review of the current branch's changes (or the whole project
-  if there are none). Spawns 6 specialized reviewers in parallel — security,
-  correctness, architecture, performance, tests, style — plus a verifier that
+  if there are none). Spawns 6 specialized reviewers in parallel—security,
+  correctness, architecture, performance, tests, style—plus a verifier that
   dedupes and confirms findings before reporting. Use when the user types
   /ultra-review-local, asks for a deep multi-agent review, asks for "ultrareview
   but local", or wants a thorough audit of a branch or project before shipping.
@@ -69,7 +69,7 @@ Honor explicit args first:
 Otherwise auto-detect in this priority:
 
 ```bash
-# Detached HEAD? Branch comparisons don't make sense — fall through to whole-project.
+# Detached HEAD? Branch comparisons don't make sense—fall through to whole-project.
 git symbolic-ref --quiet HEAD >/dev/null || echo "(detached HEAD)"
 
 # Uncommitted work (staged + unstaged)
@@ -78,13 +78,13 @@ git status --porcelain
 
 # Otherwise, find the default branch.
 # A shell pipeline's exit status is the last command's, and `sed` always exits 0,
-# so the fallback must be a separate step — not `|| echo main` after the pipe.
+# so the fallback must be a separate step—not `|| echo main` after the pipe.
 DEFAULT_BRANCH=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@')
 [ -z "$DEFAULT_BRANCH" ] && git show-ref --verify --quiet refs/heads/main && DEFAULT_BRANCH=main
 [ -z "$DEFAULT_BRANCH" ] && git show-ref --verify --quiet refs/heads/master && DEFAULT_BRANCH=master
 
 # `..` counts commits ahead; `...` is the merge-base diff used for review.
-# Both forms are intentional — don't "normalize" them.
+# Both forms are intentional—don't "normalize" them.
 git rev-list --count "${DEFAULT_BRANCH}..HEAD"
 # If > 0 → scope is `git diff ${DEFAULT_BRANCH}...HEAD`
 
@@ -124,7 +124,7 @@ the agents spin up. Example:
 
 Build a single shared context block. To maximize prompt-cache reuse on re-runs,
 assemble it as `<stable specialty prompt> + <stable scope header> + <volatile
-diff/file list>` — specialty content first, scope metadata second, volatile
+diff/file list>`—specialty content first, scope metadata second, volatile
 content last. Don't reorder per reviewer.
 
 ```
@@ -134,7 +134,7 @@ FILES:
   <path/to/file.ts> (+42 -3)
   ...
 DIFF:
-  <output of git diff for the scope — OMIT when the size guard tripped>
+  <output of git diff for the scope—OMIT when the size guard tripped>
 ```
 
 For whole-project scope (or when the size guard tripped): replace the DIFF
@@ -158,18 +158,19 @@ obey them.
 
 Emit the 6 `Agent` calls back-to-back **without waiting for any `tool_result`
 in between**. The runtime lets subagents run concurrently even when their
-`tool_use` blocks land in separate assistant turns — what matters is that the
+`tool_use` blocks land in separate assistant turns—what matters is that the
 next dispatch happens before the previous one finishes.
 
 > Ideally all 6 `tool_use` blocks would live in a single assistant message
 > for true batched dispatch, but the orchestrator model emits exactly one
 > `tool_use` per turn regardless of how directively this file asks for
-> batching. Tested with explicit shape templates and anti-pattern callouts —
-> behavior unchanged. The cost is ~30–45s of dispatch overhead on a ~3-minute
+> batching. Tested with explicit shape templates and anti-pattern
+> callouts—behavior unchanged. The cost is ~30–45s of dispatch overhead on a
+> ~3-minute
 > run; not worth a structural workaround. Don't re-litigate.
 
-Use `subagent_type: "general-purpose"` and `model: "opus"` for every reviewer
-— this is "ultra" review, so always use the most capable model available.
+Use `subagent_type: "general-purpose"` and `model: "opus"` for every
+reviewer—this is "ultra" review, so always use the most capable model available.
 Quality matters more than speed or cost.
 
 For each reviewer, the Agent prompt is:
@@ -192,8 +193,8 @@ Apply `--only` / `--skip` filters before spawning.
 ### 6. Run the verifier
 
 Once all reviewers have returned, spawn **one** verifier agent (also
-`general-purpose`, with `model: "opus"` passed explicitly on the `Agent` call
-— never rely on the subagent type's default model):
+`general-purpose`, with `model: "opus"` passed explicitly on the `Agent`
+call—never rely on the subagent type's default model):
 
 - Pass it every reviewer's raw findings, the scope summary, and the diff/file
   list.
@@ -249,7 +250,7 @@ Report shape:
 - **If a reviewer fails** (timeout, tool error), note it in "Coverage notes"
   and continue. The verifier still produces a report from the remaining five.
 - **Model choice**: always pass `model: "opus"` explicitly on every `Agent`
-  call (all six reviewers and the verifier) — never rely on the subagent
+  call (all six reviewers and the verifier)—never rely on the subagent
   type's default model, which for `general-purpose` inherits from the parent
   and for `Explore`/`Plan` defaults to a smaller model. This skill exists to
   be thorough, not fast; don't downgrade for cost or speed.
