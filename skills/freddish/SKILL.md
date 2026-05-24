@@ -2,6 +2,7 @@
 name: freddish
 description: Translates user-supplied prose into "Freddish," the meticulously careful preschooler-friendly language Fred Rogers's team developed for Mister Rogers' Neighborhood, by chaining nine independent subagent passes. Use this skill whenever the user asks for a Freddish translation, a Mister Rogers-style rewrite for young children, or asks to apply the Freddish/nine-step rules to a sentence or paragraph, even if they don't name the process explicitly but describe wanting to rephrase something so a preschooler would understand it.
 license: Complete terms in LICENSE.txt
+argument-hint: [text to translate]
 ---
 
 # Freddish Translator
@@ -38,11 +39,12 @@ To enforce this separation, dispatch each step to its own subagent. The subagent
 
 ## The procedure
 
-1. Read `references/freddish.txt` once at the start to load the nine steps with their before/after examples. Cache the content for the rest of the procedure — each step's prompt only needs that step's slice, but the orchestrator extracts each slice from this single cached read rather than re-reading the file per step.
-2. Run the **literal-misinterpretation pre-pass** subagent (see "Spawning the pre-pass" below) on the user's original prose. The pre-pass section below describes how to normalize the response and when to interrupt the user.
-3. Treat the user's input (revised or original) as the "current text."
-4. Run nine **sequential** subagent calls, one per step, in order from 1 to 9. The output of step N becomes the input to step N+1. Do not run these in parallel; each step depends on the previous step's output.
-5. After step 9 returns, present the final Freddish translation to the user, along with the intermediate results so the progression is visible.
+1. **Determine the input text.** If prose was provided with the invocation (text after `/freddish`, or anywhere in the user's message), use it as the original prose. If no text was provided, ask the user what they'd like translated into Freddish—and, if it's unclear, whether they want the full nine-step chain or a single rewrite—then wait for their reply. Do not read `references/freddish.txt`, run the pre-pass, or run any step until you have text to translate.
+2. Read `references/freddish.txt` once to load the nine steps with their before/after examples. Cache the content for the rest of the procedure — each step's prompt only needs that step's slice, but the orchestrator extracts each slice from this single cached read rather than re-reading the file per step.
+3. Run the **literal-misinterpretation pre-pass** subagent (see "Spawning the pre-pass" below) on the user's original prose. The pre-pass section below describes how to normalize the response and when to interrupt the user.
+4. Treat the user's input (revised or original) as the "current text."
+5. Run nine **sequential** subagent calls, one per step, in order from 1 to 9. The output of step N becomes the input to step N+1. Do not run these in parallel; each step depends on the previous step's output.
+6. After step 9 returns, present the final Freddish translation to the user, along with the intermediate results so the progression is visible.
 
 ### Spawning the pre-pass
 
