@@ -8,6 +8,7 @@ description: |
   /ultra-review-local, asks for a deep multi-agent review, asks for "ultrareview
   but local", or wants a thorough audit of a branch or project before shipping.
 license: Complete terms in LICENSE.txt
+argument-hint: "[scope] [--only a,b] [--skip c] [--out file]"
 ---
 
 # ultra-review-local
