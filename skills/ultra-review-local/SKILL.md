@@ -9,6 +9,8 @@ description: |
   but local", or wants a thorough audit of a branch or project before shipping.
 license: Complete terms in LICENSE.txt
 argument-hint: "[scope] [--only a,b] [--skip c] [--out file]"
+model: opus
+effort: max
 ---
 
 # ultra-review-local
@@ -255,6 +257,10 @@ Report shape:
   type's default model, which for `general-purpose` inherits from the parent
   and for `Explore`/`Plan` defaults to a smaller model. This skill exists to
   be thorough, not fast; don't downgrade for cost or speed.
+- **`effort: max` in frontmatter ramps the orchestrator only**—the reviewers'
+  reasoning depth comes from `model: opus` plus their own analysis, not from
+  this setting (the `Agent` tool has no effort parameter). Don't assume it
+  maxes the subagents.
 - **Don't run destructive git commands** during scope detection. Read-only
   inspection is enough.
 - **Treat user args as untrusted.** `scope` and `--out` come from the
