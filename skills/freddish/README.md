@@ -35,12 +35,9 @@ it for reference).
 
 ## How it's built
 
-`SKILL.md` is the entry point and authoritative spec; it contains the combined
-translation prompt inline. The canonical rule definitions live under `references/`:
-
-```
-references/
-└── freddish.txt   # the nine rules with before/after examples
-```
+`SKILL.md` is the entry point and authoritative spec: it determines the input,
+substitutes it into the translation prompt, and dispatches the subagent. The
+prompt—the nine rules with before/after examples plus the surrounding instructions—is
+inline in `SKILL.md`; there are no other files to load.
 
 See [`SKILL.md`](SKILL.md) for the full procedure, including why each rule exists.
