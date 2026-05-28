@@ -69,36 +69,61 @@ Honor explicit args first:
 - `<path>` → recurse into the path; review just those files.
 - `<rev-range>` → use `git diff <rev-range>` and `git diff --name-only <rev-range>`.
 
-Otherwise auto-detect in this priority:
+Otherwise auto-detect by evaluating these checks **in order**, stopping at the
+first match. These are decision steps for you (the orchestrator), not one script
+to pipe into a shell—run each command as needed and branch on its result.
 
-```bash
-# Detached HEAD? Branch comparisons don't make sense—fall through to whole-project.
-git symbolic-ref --quiet HEAD >/dev/null || echo "(detached HEAD)"
+1. **Unborn HEAD** — a fresh repo with no commits yet, detected by
+   `git rev-parse --verify --quiet HEAD` failing. There is no `HEAD` to diff
+   against, so do **not** run `git diff HEAD`. Scope = the staged + untracked
+   files reviewed as new content (`git diff --cached` and
+   `git ls-files --others --exclude-standard`); if there are none, tell the user
+   the repo has nothing to review and stop.
 
-# Uncommitted work (staged + unstaged)
-git status --porcelain
-# If non-empty → scope is `git diff HEAD` (plus untracked files via `git ls-files --others --exclude-standard`)
+2. **Uncommitted work** — `git status --porcelain` is non-empty. Scope =
+   `git diff HEAD` plus untracked files (`git ls-files --others
+   --exclude-standard`).
 
-# Otherwise, find the default branch.
-# A shell pipeline's exit status is the last command's, and `sed` always exits 0,
-# so the fallback must be a separate step—not `|| echo main` after the pipe.
-DEFAULT_BRANCH=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@')
-[ -z "$DEFAULT_BRANCH" ] && git show-ref --verify --quiet refs/heads/main && DEFAULT_BRANCH=main
-[ -z "$DEFAULT_BRANCH" ] && git show-ref --verify --quiet refs/heads/master && DEFAULT_BRANCH=master
+3. **Detached HEAD** — `git symbolic-ref --quiet HEAD >/dev/null` fails. A
+   "commits ahead of the default branch" comparison is meaningless here, so fall
+   through to whole-project (step 5).
 
-# `..` counts commits ahead; `...` is the merge-base diff used for review.
-# Both forms are intentional—don't "normalize" them.
-git rev-list --count "${DEFAULT_BRANCH}..HEAD"
-# If > 0 → scope is `git diff ${DEFAULT_BRANCH}...HEAD`
+4. **Branch ahead of the default branch** — resolve the default branch, then
+   count commits ahead:
 
-# Otherwise → whole project: enumerate files with the filter below.
-```
+   ```bash
+   DEFAULT_BRANCH=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's@^origin/@@')
+   [ -z "$DEFAULT_BRANCH" ] && git show-ref --verify --quiet refs/heads/main   && DEFAULT_BRANCH=main
+   [ -z "$DEFAULT_BRANCH" ] && git show-ref --verify --quiet refs/heads/master && DEFAULT_BRANCH=master
+   # Only count when a default branch actually resolved. An empty $DEFAULT_BRANCH
+   # would make "${DEFAULT_BRANCH}..HEAD" expand to "..HEAD", which git silently
+   # reads as HEAD..HEAD (count 0) and mis-routes a real branch to whole-project.
+   [ -n "$DEFAULT_BRANCH" ] && git rev-list --count "${DEFAULT_BRANCH}..HEAD"
+   ```
+
+   If `$DEFAULT_BRANCH` is empty (no `origin/HEAD`, no `main`, no `master`) or the
+   count is `0`, fall through to step 5. If the count is > 0, scope is
+   `git diff ${DEFAULT_BRANCH}...HEAD`. (`..` counts commits ahead; `...` is the
+   merge-base diff used for review—both forms are intentional, don't "normalize"
+   them. A shell pipeline's exit status is the last command's, and `sed` always
+   exits 0, so the `main`/`master` fallback must be a separate step, not
+   `|| echo main` after the pipe.)
+
+5. **Whole project** — reached when none of the above selected a scope (clean
+   tree, detached, unborn-with-no-files, no default branch, or 0 commits ahead):
+   enumerate files with the filter below.
 
 **Whole-project file filter** — `git ls-files` already respects `.gitignore`;
-this pipeline strips the vendored/generated paths that aren't gitignored:
+this pipeline strips the vendored/generated paths that aren't gitignored. The
+`\.(lock|map)$` branch catches `yarn.lock`/`Cargo.lock`/`poetry.lock` but not the
+common JS lockfiles whose names end in `.json`/`.yaml`, so those are named
+explicitly:
 
 ```bash
-git ls-files | grep -Ev '(^|/)(node_modules|vendor|dist|build|\.next|target)/|\.(lock|map)$|\.min\.[^/]+$'
+git ls-files | grep -Ev '(^|/)(node_modules|vendor|dist|build|\.next|target)/|(^|/)(package-lock\.json|pnpm-lock\.yaml|npm-shrinkwrap\.json)$|\.(lock|map)$|\.min\.[^/]+$'
+# grep -Ev exits 1 when every path is filtered out. An empty result here means
+# "nothing reviewable", not a failure—report that to the user, don't treat the
+# non-zero exit as an error and abort.
 ```
 
 For large repos (>5k files after filtering), pass reviewers a **file list +
