@@ -6,8 +6,9 @@ Rogers and his team developed for *Mister Rogers' Neighborhood*.
 
 ## What it does
 
-Freddish translation applies **nine rules**, each targeting one specific way adult
-prose fails young children: negative framing, abstraction, directive tone, false
+Freddish translation applies **nine rules**: the first states the idea clearly in
+words a preschooler knows, and the other eight each target one specific way adult
+prose fails young children—negative framing, abstraction, directive tone, false
 certainty, exclusionary assumptions, missing motivation, hidden value judgments, and
 developmental disconnection. The skill applies all nine together in a single careful
 pass, and also folds in Freddish's broader lens—catching words a literal-minded child
