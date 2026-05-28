@@ -11,7 +11,7 @@ for browsing here). Click a skill below for its full README.
 
 | Skill | What it does |
 | --- | --- |
-| [**ultra-review-local**](skills/ultra-review-local/README.md) | Local, multi-agent code review—six specialized reviewers run in parallel against your branch (or whole project), then a verifier dedupes and confirms before reporting. A locally-orchestrated alternative to the cloud `/code-review ultra` (formerly `/ultrareview`). |
+| [**ultra-review-local**](skills/ultra-review-local/README.md) _(deprecated)_ | Local, multi-agent code review (six specialized reviewers + a verifier). **Superseded by the consolidated `/code-review max`** (optionally with `/effort ultracode`); kept for reference. |
 | [**freddish**](skills/freddish/README.md) | Translates prose into "Freddish," the preschooler-friendly language from *Mister Rogers' Neighborhood*, by applying its nine rules in a single careful pass. |
 
 ## Installing a skill
@@ -20,7 +20,7 @@ Skills are self-contained directories. To make one available to Claude Code, sym
 (or copy) its directory into your skills folder:
 
 ```bash
-ln -s "$PWD/skills/ultra-review-local" ~/.claude/skills/ultra-review-local
+ln -s "$PWD/skills/freddish" ~/.claude/skills/freddish
 ```
 
 Claude loads the skill from its `SKILL.md`; the `README.md` and `references/` travel

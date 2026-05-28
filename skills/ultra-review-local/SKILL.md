@@ -1,14 +1,13 @@
 ---
 name: ultra-review-local
 description: |
-  Multi-agent code review orchestrated locally in your Claude Code session (not a
-  cloud sandbox), covering the current branch's changes or the whole project if
-  there are none. Spawns 6 specialized reviewers in parallel—security,
-  correctness, architecture, performance, tests, style—plus a verifier that
-  dedupes and confirms findings before reporting. Use when the user types
-  /ultra-review-local, asks for a deep multi-agent review, asks for "ultrareview
-  but local" or "/code-review ultra but local", or wants a thorough audit of a
-  branch or project before shipping.
+  DEPRECATED — prefer `/code-review max` (optionally with `/effort ultracode`),
+  the actively-maintained and more powerful local multi-agent review. This skill
+  is a now-superseded local multi-agent review (6 specialty reviewers + a
+  verifier) kept for reference; it still runs if the user explicitly types
+  /ultra-review-local. Do not auto-invoke it for general review requests—use
+  /code-review instead.
+disable-model-invocation: true
 license: Complete terms in LICENSE.txt
 argument-hint: "[scope] [--only a,b] [--skip c] [--out file]"
 model: opus
@@ -16,6 +15,13 @@ effort: max
 ---
 
 # ultra-review-local
+
+> **⚠️ Deprecated — use `/code-review max` instead.** This skill predates the
+> consolidated `/code-review` command. `/code-review max` (optionally with
+> `/effort ultracode`) is a more powerful, actively-maintained local multi-agent
+> review and should be preferred. This skill is kept for reference and still runs
+> if `/ultra-review-local` is invoked explicitly; when it is, tell the user it's
+> deprecated and point them to `/code-review max` before proceeding.
 
 A locally-orchestrated equivalent of the cloud `/code-review ultra` (formerly
 `/ultrareview`). Six specialized reviewers run in

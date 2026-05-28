@@ -1,5 +1,11 @@
 # ultra-review-local
 
+> **⚠️ Deprecated — use `/code-review max` instead.** This skill predates the
+> consolidated `/code-review` command, which now provides a more powerful local
+> multi-agent review: **`/code-review max`** (optionally with `/effort ultracode`).
+> Prefer that for new reviews. The skill is kept here for reference and still runs
+> if you invoke `/ultra-review-local` explicitly.
+
 A multi-agent code-review skill for [Claude Code](https://claude.com/claude-code):
 Claude Code orchestrates the review from your local session—spawning the reviewer and
 verifier subagents itself—instead of handing the job to a cloud sandbox the way the
@@ -7,11 +13,6 @@ cloud `/code-review ultra` (formerly `/ultrareview`) does. Six specialized revie
 run in parallel against your branch's changes (or the whole project if there are none),
 then a verifier dedupes and confirms each finding before producing a single prioritized
 markdown report.
-
-> **For an even deeper review:** running `/code-review max` with `/effort ultracode`
-> is more powerful than this skill—it uses more independent finder angles,
-> adversarially verifies every finding, and sweeps for gaps, at the cost of more time
-> and usage.
 
 ## What it does
 
