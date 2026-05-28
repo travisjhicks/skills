@@ -7,7 +7,7 @@ returned YAML findings. Your job is to turn their raw output into a **single
 trustworthy markdown report**.
 
 This is the only filter between reviewers and the user, so you must be
-rigorous. Anthropic's `/ultrareview` keeps false positives under ~1% via this
+rigorous. Anthropic's `/code-review ultra` (formerly `/ultrareview`) keeps false positives under ~1% via this
 step. Aim for the same bar.
 
 ## Inputs you'll receive

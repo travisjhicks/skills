@@ -1,12 +1,14 @@
 ---
 name: ultra-review-local
 description: |
-  Multi-agent local review of the current branch's changes (or the whole project
-  if there are none). Spawns 6 specialized reviewers in parallel—security,
+  Multi-agent code review orchestrated locally in your Claude Code session (not a
+  cloud sandbox), covering the current branch's changes or the whole project if
+  there are none. Spawns 6 specialized reviewers in parallel—security,
   correctness, architecture, performance, tests, style—plus a verifier that
   dedupes and confirms findings before reporting. Use when the user types
   /ultra-review-local, asks for a deep multi-agent review, asks for "ultrareview
-  but local", or wants a thorough audit of a branch or project before shipping.
+  but local" or "/code-review ultra but local", or wants a thorough audit of a
+  branch or project before shipping.
 license: Complete terms in LICENSE.txt
 argument-hint: "[scope] [--only a,b] [--skip c] [--out file]"
 model: opus
@@ -15,7 +17,8 @@ effort: max
 
 # ultra-review-local
 
-A local equivalent of the cloud `/ultrareview`. Six specialized reviewers run in
+A locally-orchestrated equivalent of the cloud `/code-review ultra` (formerly
+`/ultrareview`). Six specialized reviewers run in
 parallel against the same code, then a verifier dedupes and confirms each
 finding before assembling the final report.
 
@@ -23,9 +26,9 @@ finding before assembling the final report.
 
 Trigger this skill when the user:
 - Types `/ultra-review-local` (with or without args)
-- Asks for a multi-agent review, ultra review, or "ultrareview locally"
+- Asks for a multi-agent review, an ultra review, or a local `/code-review ultra` (a.k.a. `/ultrareview`)
 - Asks for a thorough/deep review of their branch or project
-- Wants pre-merge review without going through GitHub or the billed cloud feature
+- Wants pre-merge review without going through GitHub or the cloud `/code-review ultra` (formerly `/ultrareview`) feature
 
 ## Arguments
 

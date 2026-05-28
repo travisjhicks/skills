@@ -1,10 +1,17 @@
 # ultra-review-local
 
-A local, multi-agent code-review skill for [Claude Code](https://claude.com/claude-code):
-a free, fully-local equivalent of the cloud `/ultrareview` feature. Six specialized
-reviewers run in parallel against your branch's changes (or the whole project if there
-are none), then a verifier dedupes and confirms each finding before producing a single
-prioritized markdown report.
+A multi-agent code-review skill for [Claude Code](https://claude.com/claude-code):
+Claude Code orchestrates the review from your local session—spawning the reviewer and
+verifier subagents itself—instead of handing the job to a cloud sandbox the way the
+cloud `/code-review ultra` (formerly `/ultrareview`) does. Six specialized reviewers
+run in parallel against your branch's changes (or the whole project if there are none),
+then a verifier dedupes and confirms each finding before producing a single prioritized
+markdown report.
+
+> **For an even deeper review:** running `/code-review max` with `/effort ultracode`
+> is more powerful than this skill—it uses more independent finder angles,
+> adversarially verifies every finding, and sweeps for gaps, at the cost of more time
+> and usage.
 
 ## What it does
 
@@ -57,10 +64,11 @@ With no scope arg, the skill auto-detects, stopping at the first match:
 You can always override with an explicit arg. `SKILL.md` is the authoritative spec
 for the exact order and edge-case handling.
 
-## Differences from cloud `/ultrareview`
+## Differences from cloud `/code-review ultra`
 
-- **Runs locally** — no cloud sandbox, no billed compute beyond your own Claude Code
-  subscription.
+- **Orchestrated locally** — no separate cloud sandbox to provision; Claude Code runs
+  the reviewers and verifier from your normal session, which avoids the added expense
+  of a cloud-based review.
 - **No GitHub remote required** — works on any local git repo, including ones with no
   remote at all.
 - **Whole-project fallback** — if there's no diff vs. the default branch, it still
