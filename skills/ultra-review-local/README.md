@@ -42,16 +42,20 @@ Every agent runs on `model: "opus"`. This skill is meant to be thorough, not fas
 
 ## Scope detection
 
-With no scope arg, the skill picks one in this order:
+With no scope arg, the skill auto-detects, stopping at the first match:
 
-1. **Uncommitted work** — anything in `git status --porcelain` → review `git diff HEAD`
+1. **Unborn HEAD** — a brand-new repo with no commits yet → review the staged +
+   untracked files.
+2. **Uncommitted work** — anything in `git status --porcelain` → review `git diff HEAD`
    plus untracked files.
-2. **Branch ahead of default** — commits not in `origin/HEAD` (falling back to `main`
+3. **Detached HEAD** — a branch comparison doesn't apply, so fall through to whole-project.
+4. **Branch ahead of default** — commits not in `origin/HEAD` (falling back to `main`
    → `master`) → review the branch diff.
-3. **Whole project** — clean repo with no diff → review the tracked tree (excludes
-   `node_modules/`, `dist/`, `build/`, lockfiles, etc.).
+5. **Whole project** — clean repo with no diff (or no default branch resolved) → review
+   the tracked tree (excludes `node_modules/`, `dist/`, `build/`, lockfiles, etc.).
 
-You can always override with an explicit arg.
+You can always override with an explicit arg. `SKILL.md` is the authoritative spec
+for the exact order and edge-case handling.
 
 ## Differences from cloud `/ultrareview`
 

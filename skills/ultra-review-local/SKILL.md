@@ -45,10 +45,13 @@ Filter reviewers with `--only` or `--skip`:
 ### Argument parsing
 
 Scan tokens left-to-right. Tokens starting with `--` are flags; consume the
-next token as the value for `--out`/`--only`/`--skip`. The remaining positional
-token (if any) is the `scope`. If the positional token is the literal keyword
-`whole` or `staged`, dispatch to that branch in step 2; otherwise treat it as
-a path or rev-range.
+next token as the value for `--out`/`--only`/`--skip`—if such a flag is the last
+token with no value after it, stop and tell the user the flag is missing its
+value rather than silently consuming nothing. The remaining positional token (if
+any) is the `scope`. If the positional token is the literal keyword `whole` or
+`staged`, dispatch to that branch in step 2; otherwise treat it as a path or
+rev-range. (To review a file or directory literally named `whole` or `staged`,
+pass it with a leading `./`, e.g. `./whole`.)
 
 ## Workflow
 
@@ -128,7 +131,10 @@ git ls-files | grep -Ev '(^|/)(node_modules|vendor|dist|build|\.next|target)/|(^
 
 For large repos (>5k files after filtering), pass reviewers a **file list +
 on-demand Read access** rather than full content, and tell them to prioritize
-entry points, public APIs, and recently-modified files:
+entry points, public APIs, and recently-modified files (each reviewer Reads
+independently—no shared cache between subagents—so a shared file is tokenized
+once per reviewer that opens it; the ~40-file per-reviewer budget keeps this
+bounded):
 
 ```bash
 git log --since="3 months ago" --name-only --pretty=format: | awk 'NF' | sort -u

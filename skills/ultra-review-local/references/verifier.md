@@ -40,7 +40,7 @@ where you add a finding the reviewers didn't raise (see "What you must not do").
 ### 1. Parse
 
 Parse each reviewer's YAML into a flat list of findings. The canonical schema
-is in `references/reviewers/_schema.md`. If a reviewer's output is malformed
+is in [`reviewers/_schema.md`](reviewers/_schema.md) (relative to this file). If a reviewer's output is malformed
 or missing, record that under "Coverage notes" and continue with what you
 have.
 
