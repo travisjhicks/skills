@@ -216,7 +216,13 @@ Reviewer list:
 - `tests` → references/reviewers/tests.md
 - `style` → references/reviewers/style.md
 
-Apply `--only` / `--skip` filters before spawning.
+Apply `--only` / `--skip` filters before spawning. First **validate** every
+name in `--only`/`--skip` against the reviewer list above; if any value isn't one
+of the six (e.g. a typo like `securty`), stop and tell the user which name is
+unknown—don't silently spawn zero reviewers and report an empty review. If both
+flags are passed, apply `--only` first, then drop any `--skip` names from that
+set. Remember the **resolved reviewer set** (the names that will actually run);
+you pass it to the verifier in step 6.
 
 ### 6. Run the verifier
 
@@ -224,8 +230,10 @@ Once all reviewers have returned, spawn **one** verifier agent (also
 `general-purpose`, with `model: "opus"` passed explicitly on the `Agent`
 call—never rely on the subagent type's default model):
 
-- Pass it every reviewer's raw findings, the scope summary, and the diff/file
-  list.
+- Pass it every reviewer's raw findings, the scope summary, the diff/file list,
+  and the **resolved reviewer set** from step 5 (the reviewers that were supposed
+  to run after `--only`/`--skip`). The verifier needs this to tell a reviewer
+  that was intentionally skipped apart from one that crashed.
 - Load its prompt from `references/verifier.md`.
 - It deduplicates, reads the actual code to confirm each finding, drops the
   unconfirmable ones, assigns final severity, and returns the assembled
@@ -276,7 +284,9 @@ Report shape:
 - **Don't summarize the reviewers' raw output yourself** — the verifier is the
   only place where findings get filtered. You're an orchestrator, not a judge.
 - **If a reviewer fails** (timeout, tool error), note it in "Coverage notes"
-  and continue. The verifier still produces a report from the remaining five.
+  and continue. The verifier still produces a report from the reviewers that
+  did return (which may be fewer than five if multiple failed or `--only`/`--skip`
+  narrowed the set).
 - **Model choice**: always pass `model: "opus"` explicitly on every `Agent`
   call (all six reviewers and the verifier)—never rely on the subagent
   type's default model, which for `general-purpose` inherits from the parent
