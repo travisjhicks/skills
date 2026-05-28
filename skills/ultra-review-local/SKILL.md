@@ -255,30 +255,13 @@ URL and won't resolve. Reports written with `--out` are best opened inside
 Claude Code; if you expect external viewing, switch to plain `path:line` text
 in the report.
 
-Report shape:
-
-```markdown
-# ultra-review-local report
-
-**Scope:** <what was reviewed>
-**Reviewers:** security, correctness, architecture, performance, tests, style
-**Verifier:** single pass
-**Model:** <model name used for reviewers and verifier>
-**Findings:** <N critical, M important, K suggestions> · <X dropped during verification>
-
-## Critical
-- [path/file.ts:42](path/file.ts:42) — <one-line> · <why it matters>
-
-## Important
-- ...
-
-## Suggestions
-- ...
-
-## Coverage notes
-- <reviewer> returned no findings
-- <reviewer> flagged context limits; consider re-running with narrower scope
-```
+The exact report shape—header fields, severity sections, the `file:line` link
+form, and the Coverage-notes rules—is defined once in `references/verifier.md`,
+which the verifier emits and you print verbatim. Don't keep a second copy here:
+an earlier duplicate drifted out of sync (it hardcoded an all-six `Reviewers:`
+line that was wrong under `--only`/`--skip`, and a `Model:` field the verifier
+was never handed the data to fill). Print exactly what the verifier returns;
+don't reformat it to a template stored in this file.
 
 ## Notes for the orchestrating model
 
