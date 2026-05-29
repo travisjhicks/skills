@@ -1,7 +1,6 @@
 ---
 name: freddish
 description: Translates user-supplied prose into "Freddish," the meticulously careful preschooler-friendly language Fred Rogers's team developed for Mister Rogers' Neighborhood, by applying its nine rules in a single careful pass. Use this skill whenever the user asks for a Freddish translation, a Mister Rogers-style rewrite for young children, or asks to apply the Freddish/nine rules to a sentence or paragraph, even if they don't name the process explicitly but describe wanting to rephrase something so a preschooler would understand it.
-license: Complete terms in LICENSE.txt
 argument-hint: "[text to translate]"
 ---
 

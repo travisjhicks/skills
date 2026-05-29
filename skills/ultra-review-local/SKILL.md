@@ -8,7 +8,6 @@ description: |
   /ultra-review-local. Do not auto-invoke it for general review requests—use
   /code-review instead.
 disable-model-invocation: true
-license: Complete terms in LICENSE.txt
 argument-hint: "[scope] [--only a,b] [--skip c] [--out file]"
 model: opus
 effort: max
