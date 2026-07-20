@@ -11,6 +11,7 @@ for browsing here). Click a skill below for its full README.
 
 | Skill | What it does |
 | --- | --- |
+| [**claude-isms**](skills/claude-isms/README.md) | Word-choice and voice rules that remove the house dialect of AI-assistant prose ("footgun," "blast radius," "You're absolutely right," praise tics, em dash overuse) from everything Claude writes for a human reader. |
 | [**freddish**](skills/freddish/README.md) | Translates prose into "Freddish," the preschooler-friendly language from *Mister Rogers' Neighborhood*, by applying its nine rules in a single careful pass. |
 | [**intent-reconstruct**](skills/intent-reconstruct/README.md) | Blind clean-room reconstruction of any document: distills it into an intent specification, has an isolated agent that never sees the original rebuild it from the spec alone, then verifies intent coverage and audits for leakage. |
 | [**ultra-review-local**](skills/ultra-review-local/README.md) _(deprecated)_ | Local, multi-agent code review (six specialized reviewers + a verifier). **Superseded by the consolidated `/code-review max`** (optionally with `/effort ultracode`); kept for reference. |
