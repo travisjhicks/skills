@@ -24,22 +24,23 @@ which needs Node.js 22.20 or later. It asks which agents to install to (Claude C
 Codex, and others it detects) and installs into the current project unless you add
 `-g` to install for your user account.
 
+Install, choosing the skills, agents, and scope from prompts (the skill list has a
+select-all option):
+
+```bash
+npx skills add travisjhicks/skills
+```
+
 List the skills in this repository:
 
 ```bash
 npx skills add travisjhicks/skills --list
 ```
 
-Install all of them:
+Install one skill, here for your user account:
 
 ```bash
-npx skills add travisjhicks/skills --skill '*'
-```
-
-Install one skill, here globally for Claude Code:
-
-```bash
-npx skills add travisjhicks/skills --skill freddish -g -a claude-code
+npx skills add travisjhicks/skills --skill freddish -g
 ```
 
 The deprecated `ultra-review-local` is marked internal, so the CLI hides it unless
