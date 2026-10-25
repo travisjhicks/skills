@@ -1,6 +1,6 @@
 # freddish
 
-A [Claude Code](https://claude.com/claude-code) skill that translates ordinary prose
+An [Agent Skill](https://agentskills.io) that translates ordinary prose
 into **"Freddish"**—the meticulously careful, preschooler-friendly language Fred
 Rogers and his team developed for *Mister Rogers' Neighborhood*.
 

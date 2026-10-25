@@ -1,6 +1,6 @@
 # claude-isms
 
-A [Claude Code](https://claude.com/claude-code) skill that removes the recognizable
+An [Agent Skill](https://agentskills.io) that removes the recognizable
 house dialect of AI-assistant prose ("footgun," "blast radius," "You're absolutely
 right," praise tics, em dash overuse) from everything Claude writes for a human
 reader: answers, plans, reports, review findings, commit messages, PR bodies,

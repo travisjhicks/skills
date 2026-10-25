@@ -1,6 +1,6 @@
 # simplified-technical-english
 
-A [Claude Code](https://claude.com/claude-code) skill that rewrites technical
+An [Agent Skill](https://agentskills.io) that rewrites technical
 prose into a **controlled English for software**—a style built on the concepts
 of ASD-STE100 Simplified Technical English, but deliberately its own thing. The
 target reader is an engineer mid-task or a second-language reader who needs to

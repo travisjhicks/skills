@@ -1,6 +1,6 @@
 # intent-reconstruct
 
-A [Claude Code](https://claude.com/claude-code) skill that performs a **blind,
+An [Agent Skill](https://agentskills.io) that performs a **blind,
 clean-room reconstruction** of any document — a prompt, code, procedural
 instructions, poetry, documentation, or configuration. It distills the document
 into an abstract intent specification, has an isolated agent that never sees the

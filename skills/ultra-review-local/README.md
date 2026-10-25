@@ -6,7 +6,7 @@
 > Prefer that for new reviews. The skill is kept here for reference and still runs
 > if you invoke `/ultra-review-local` explicitly.
 
-A multi-agent code-review skill for [Claude Code](https://claude.com/claude-code):
+A multi-agent code-review [Agent Skill](https://agentskills.io) for [Claude Code](https://claude.com/claude-code):
 Claude Code orchestrates the review from your local session—spawning the reviewer and
 verifier subagents itself—instead of handing the job to a cloud sandbox the way the
 cloud `/code-review ultra` (formerly `/ultrareview`) does. Six specialized reviewers

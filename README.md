@@ -1,10 +1,9 @@
 # Skills
 
-A personal collection of [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills)
-for [Claude Code](https://claude.com/claude-code).
+A personal collection of [Agent Skills](https://agentskills.io).
 
 Each skill lives in its own directory under [`skills/`](skills/), with a `SKILL.md`
-(the agent-facing entry point Claude loads) and a `README.md` (a human-facing overview
+(the entry point the agent loads) and a `README.md` (a human-facing overview
 for browsing here). Click a skill below for its full README.
 
 ## Skills
