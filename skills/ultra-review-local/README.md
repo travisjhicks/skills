@@ -14,6 +14,21 @@ run in parallel against your branch's changes (or the whole project if there are
 then a verifier dedupes and confirms each finding before producing a single prioritized
 markdown report.
 
+## Installing
+
+Install this skill with the [`skills` CLI](https://github.com/vercel-labs/skills):
+
+```bash
+INSTALL_INTERNAL_SKILLS=1 npx skills add travisjhicks/skills --skill ultra-review-local
+```
+
+Add `-g` to install it for your user account instead of the current project, and
+`-a claude-code` or `-a codex` to skip the agent prompt. See the
+[repository README](../../README.md#installing) for other options.
+
+This skill is marked internal, so the CLI lists and installs it only when
+`INSTALL_INTERNAL_SKILLS=1` is set.
+
 ## What it does
 
 When invoked via `/ultra-review-local`, the skill:

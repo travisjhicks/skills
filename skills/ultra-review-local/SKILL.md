@@ -11,6 +11,8 @@ disable-model-invocation: true
 argument-hint: "[scope] [--only a,b] [--skip c] [--out file]"
 model: opus
 effort: max
+metadata:
+  internal: true
 ---
 
 # ultra-review-local

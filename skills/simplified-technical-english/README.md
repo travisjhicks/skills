@@ -13,6 +13,18 @@ standard as written, dictionary and all. Use that one when the goal is
 conformance; use this one when the goal is just clearer technical prose. The
 output here does **not** conform to ASD-STE100 and is not intended to.
 
+## Installing
+
+Install this skill with the [`skills` CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add travisjhicks/skills --skill simplified-technical-english
+```
+
+Add `-g` to install it for your user account instead of the current project, and
+`-a claude-code` or `-a codex` to skip the agent prompt. See the
+[repository README](../../README.md#installing) for other options.
+
 ## What it does
 
 The rewrite applies the controlled-language core—one word per meaning, one

@@ -17,14 +17,47 @@ for browsing here). Click a skill below for its full README.
 | [**simplified-technical-english**](skills/simplified-technical-english/README.md) | Rewrites technical prose into a controlled English for software—based on the concepts of ASD-STE100 but its own style: one word per meaning, one instruction per sentence, active voice, capped sentence lengths, with registers and protections built for software text. |
 | [**ultra-review-local**](skills/ultra-review-local/README.md) _(deprecated)_ | Local, multi-agent code review (six specialized reviewers + a verifier). **Superseded by the consolidated `/code-review max`** (optionally with `/effort ultracode`); kept for reference. |
 
-## Installing a skill
+## Installing
 
-Skills are self-contained directories. To make one available to Claude Code, symlink
-(or copy) its directory into your skills folder:
+The skills install with the [`skills` CLI](https://github.com/vercel-labs/skills),
+which needs Node.js 22.20 or later. It asks which agents to install to (Claude Code,
+Codex, and others it detects) and installs into the current project unless you add
+`-g` to install for your user account.
+
+List the skills in this repository:
+
+```bash
+npx skills add travisjhicks/skills --list
+```
+
+Install all of them:
+
+```bash
+npx skills add travisjhicks/skills --skill '*'
+```
+
+Install one skill, here globally for Claude Code:
+
+```bash
+npx skills add travisjhicks/skills --skill freddish -g -a claude-code
+```
+
+The deprecated `ultra-review-local` is marked internal, so the CLI hides it unless
+`INSTALL_INTERNAL_SKILLS=1` is set.
+
+### Installing by hand
+
+Each skill is a self-contained directory, so you can also copy or symlink one into
+your agent's skills folder:
+
+| Agent | For your user account | For one project |
+| --- | --- | --- |
+| Claude Code | `~/.claude/skills/` | `.claude/skills/` |
+| Codex | `~/.agents/skills/` | `.agents/skills/` |
 
 ```bash
 ln -s "$PWD/skills/freddish" ~/.claude/skills/freddish
 ```
 
-Claude loads the skill from its `SKILL.md`; the `README.md` and `references/` travel
-with it.
+The agent loads the skill from its `SKILL.md`; the `README.md` and `references/`
+travel with it.

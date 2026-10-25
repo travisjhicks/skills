@@ -6,6 +6,18 @@ right," praise tics, em dash overuse) from everything Claude writes for a human
 reader: answers, plans, reports, review findings, commit messages, PR bodies,
 documentation, and issue-tracker comments.
 
+## Installing
+
+Install this skill with the [`skills` CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add travisjhicks/skills --skill claude-isms
+```
+
+Add `-g` to install it for your user account instead of the current project, and
+`-a claude-code` or `-a codex` to skip the agent prompt. See the
+[repository README](../../README.md#installing) for other options.
+
 ## What it does
 
 The skill is a word-choice and voice guide, applied on every response without being

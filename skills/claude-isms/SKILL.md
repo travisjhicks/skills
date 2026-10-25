@@ -1,6 +1,6 @@
 ---
 name: claude-isms
-description: Word-choice and voice rules that remove overused "Claude-isms" (footgun, blast radius, "You're absolutely right", em dash overuse, praise tics, danger metaphors) from all prose the user reads: answers, plans, reports, code-review findings, commit messages, PR bodies, documentation, issue-tracker comments. Use on every response and every follow-up turn, even short or tool-heavy ones, without waiting to be asked.
+description: "Word-choice and voice rules that remove overused \"Claude-isms\" (footgun, blast radius, \"You're absolutely right\", em dash overuse, praise tics, danger metaphors) from all prose the user reads: answers, plans, reports, code-review findings, commit messages, PR bodies, documentation, issue-tracker comments. Use on every response and every follow-up turn, even short or tool-heavy ones, without waiting to be asked."
 ---
 
 # Claude-isms: what not to say, and what to say instead

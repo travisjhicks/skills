@@ -7,6 +7,18 @@ into an abstract intent specification, has an isolated agent that never sees the
 original rebuild the document from that spec alone, then verifies how much of the
 intent survived.
 
+## Installing
+
+Install this skill with the [`skills` CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add travisjhicks/skills --skill intent-reconstruct
+```
+
+Add `-g` to install it for your user account instead of the current project, and
+`-a claude-code` or `-a codex` to skip the agent prompt. See the
+[repository README](../../README.md#installing) for other options.
+
 ## What it does
 
 Three isolated roles run in sequence:

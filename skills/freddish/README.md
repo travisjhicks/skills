@@ -4,6 +4,18 @@ A [Claude Code](https://claude.com/claude-code) skill that translates ordinary p
 into **"Freddish"**—the meticulously careful, preschooler-friendly language Fred
 Rogers and his team developed for *Mister Rogers' Neighborhood*.
 
+## Installing
+
+Install this skill with the [`skills` CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add travisjhicks/skills --skill freddish
+```
+
+Add `-g` to install it for your user account instead of the current project, and
+`-a claude-code` or `-a codex` to skip the agent prompt. See the
+[repository README](../../README.md#installing) for other options.
+
 ## What it does
 
 Freddish translation applies **nine rules**: the first states the idea clearly in
