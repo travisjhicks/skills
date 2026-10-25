@@ -8,10 +8,10 @@ understand each sentence on the first pass; the target text is software prose:
 documentation, instructions, reports, and text written by or for large language
 models.
 
-This is the pragmatic sibling of the `asd-ste100` skill, which applies the
-standard as written, dictionary and all. Use that one when the goal is
-conformance; use this one when the goal is just clearer technical prose. The
-output here does **not** conform to ASD-STE100 and is not intended to.
+Use it when the goal is clearer technical prose, not conformance. The output
+does **not** conform to ASD-STE100 and is not intended to: it skips the
+standard's controlled dictionary and changes several of its rules. For
+conformant text, apply the standard as written.
 
 ## Installing
 

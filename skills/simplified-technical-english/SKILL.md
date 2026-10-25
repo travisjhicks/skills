@@ -10,11 +10,11 @@ Simplified Technical English is a controlled language. Aircraft maintenance manu
 
 This skill rewrites supplied text into a style that is based on the concepts of that language but is its own thing. The source of the concepts, ASD-STE100 Issue 9, is published by the Aerospace, Security and Defence Industries Association of Europe and targets aerospace maintenance documentation. This style targets software prose: documentation, instructions, reports, and explanations that engineers read mid-task, and text that large language models write or read. The last section of this file lists the deviations from the standard.
 
-Do not use this skill to translate text into ASD-STE100. The output does not conform to the standard and is not intended to. This skill makes text more like the standard's language, not equal to it. To rewrite text into the standard as written, use the `asd-ste100` skill. This skill is self-contained: everything the translating subagent needs is embedded in the prompt below.
+Do not use this skill to translate text into ASD-STE100. The output does not conform to the standard and is not intended to. This skill makes text more like the standard's language, not equal to it. This skill is self-contained: everything the translating subagent needs is embedded in the prompt below.
 
 ## When this skill applies
 
-Use this skill when the user gives you text (or a file) and asks for a simplified or controlled-language rewrite of technical prose. Also use it when the user describes the underlying goal: "rewrite this so a non-native reader gets it on the first pass", "make this readable by an engineer mid-task". When the user asks for conformance with the ASD-STE100 specification itself, use the `asd-ste100` skill instead.
+Use this skill when the user gives you text (or a file) and asks for a simplified or controlled-language rewrite of technical prose. Also use it when the user describes the underlying goal: "rewrite this so a non-native reader gets it on the first pass", "make this readable by an engineer mid-task". Do not use it when the user asks for conformance with the ASD-STE100 specification itself.
 
 ## What the translation does and does not change
 
